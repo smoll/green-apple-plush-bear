@@ -7,9 +7,6 @@ def diff_max_and_min(array):
     Returns integer diff between max and min integer in array.
     If array contains any numerical anagrams, returns None.
     """
-    def anagram_for(num):
-        return int(as_string(num)[::-1])
-
     def as_string(num):
         return str(num, 'utf-8') if isinstance(num, bytes) else str(num)
 
@@ -19,8 +16,10 @@ def diff_max_and_min(array):
     checked = []
     for item in array:
         # logger.debug('item: %s' % (item,))
-        if anagram_for(item) in checked:
-            return None
+        for c_item in checked:
+            if sorted(as_string(item)) == sorted(as_string(c_item)):
+                return None
+
         checked.append(as_int(item))
 
     return max(checked) - min(checked)
