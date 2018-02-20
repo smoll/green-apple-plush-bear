@@ -39,3 +39,6 @@ node_modules
 fill.js
 generate.js
 input-*.txt
+
+# python app
+*.pyc

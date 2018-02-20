@@ -53,4 +53,7 @@ docker-compose up --build
 
 # in another
 docker-compose run --rm app
+
+# test
+docker-compose run --rm app python test_app.py
 ```

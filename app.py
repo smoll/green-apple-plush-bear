@@ -2,7 +2,7 @@ from logzero import logger
 import redis
 import requests
 
-def _diff(array):
+def diff_max_and_min(array):
     """
     Returns integer diff between max and min integer in array.
     If array contains any numerical anagrams, returns None.
@@ -42,7 +42,7 @@ def main():
             raise BaseException('FIXME: unhandled redis type!')
         logger.info('val: %s' % (val,))
 
-        diff = _diff(val)
+        diff = diff_max_and_min(val)
         logger.info('diff: %s' % (diff,))
 
         if diff:
