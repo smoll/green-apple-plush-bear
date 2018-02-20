@@ -10,12 +10,15 @@ def _diff(array):
     def anagram_for(num):
         return int(str(num, 'utf-8')[::-1])
 
+    def decoded(num):
+        return int(str(num, 'utf-8'))
+
     checked = []
     for item in array:
         # logger.debug('item: %s' % (item,))
         if anagram_for(item) in checked:
             return None
-        checked.append(int(item))
+        checked.append(decoded(item))
 
     return max(checked) - min(checked)
 
@@ -24,7 +27,7 @@ logger.info('starting...')
 r = redis.StrictRedis(host='redis', port=6379)
 keys = r.keys('*')
 
-total = 0
+checksum = 0
 for key in keys:
     type = r.type(key)
     logger.info('type: %s' % type)
@@ -41,7 +44,14 @@ for key in keys:
     logger.info('diff: %s' % (diff,))
 
     if diff:
-        total += diff
+        checksum += diff
 
-logger.info('total: %s' % total)
+logger.info('checksum: %s' % checksum)
+
+url = "http://answer:3000/%s" % checksum
+logger.info('url: %s' % url)
+
+response = requests.get(url)
+logger.info('response: %s' % response)
+
 logger.info('done.')
