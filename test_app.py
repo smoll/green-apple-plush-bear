@@ -14,7 +14,7 @@ class AppTestCases(unittest.TestCase):
 
     def test_example_three(self):
         """Diff example three"""
-        self.assertEqual(diff_max_and_min([3000, 4, 0, 9, 500]), 4)
+        self.assertEqual(diff_max_and_min([3000, 4, 0, 9, 500]), 3000)
 
 if __name__ == '__main__':
     unittest.main()
