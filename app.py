@@ -8,17 +8,20 @@ def diff_max_and_min(array):
     If array contains any numerical anagrams, returns None.
     """
     def anagram_for(num):
-        return int(str(num, 'utf-8')[::-1])
+        return int(as_string(num)[::-1])
 
-    def decoded(num):
-        return int(str(num, 'utf-8'))
+    def as_string(num):
+        return str(num, 'utf-8') if isinstance(num, bytes) else str(num)
+
+    def as_int(num):
+        return int(as_string(num))
 
     checked = []
     for item in array:
         # logger.debug('item: %s' % (item,))
         if anagram_for(item) in checked:
             return None
-        checked.append(decoded(item))
+        checked.append(as_int(item))
 
     return max(checked) - min(checked)
 
