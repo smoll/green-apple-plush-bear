@@ -44,3 +44,13 @@ Your checksum would be `3004`.
 - `docker-compose up verify` will check if the Redis DB can handle requests and if the data looks as expected. It will also send a request to the answer server to test its connectivity.
 - If you have any issues setting up this project, please post an issue and we will be alerted. Or contact your recruiter to pass us a message.
 - This project was most recently tested using Docker Engine 17.12.0-ce and Docker Compose 1.18.0
+
+## My Notes
+
+```sh
+# in one tab
+docker-compose up --build
+
+# in another
+docker-compose run --rm app
+```
