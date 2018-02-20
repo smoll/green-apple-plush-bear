@@ -22,36 +22,42 @@ def _diff(array):
 
     return max(checked) - min(checked)
 
-logger.info('starting...')
 
-r = redis.StrictRedis(host='redis', port=6379)
-keys = r.keys('*')
+def main():
+    logger.info('starting...')
 
-checksum = 0
-for key in keys:
-    type = r.type(key)
-    logger.info('type: %s' % type)
+    r = redis.StrictRedis(host='redis', port=6379)
+    keys = r.keys('*')
 
-    if type == b'list':
-        val = r.lrange(key, 0, -1)
-    elif type == b'set':
-        val = r.smembers(key)
-    else:
-        raise BaseException('FIXME: unhandled redis type!')
-    logger.info('val: %s' % (val,))
+    checksum = 0
+    for key in keys:
+        type = r.type(key)
+        logger.info('type: %s' % type)
 
-    diff = _diff(val)
-    logger.info('diff: %s' % (diff,))
+        if type == b'list':
+            val = r.lrange(key, 0, -1)
+        elif type == b'set':
+            val = r.smembers(key)
+        else:
+            raise BaseException('FIXME: unhandled redis type!')
+        logger.info('val: %s' % (val,))
 
-    if diff:
-        checksum += diff
+        diff = _diff(val)
+        logger.info('diff: %s' % (diff,))
 
-logger.info('checksum: %s' % checksum)
+        if diff:
+            checksum += diff
 
-url = "http://answer:3000/%s" % checksum
-logger.info('url: %s' % url)
+    logger.info('checksum: %s' % checksum)
 
-response = requests.get(url)
-logger.info('response: %s' % response)
+    url = "http://answer:3000/%s" % checksum
+    logger.info('url: %s' % url)
 
-logger.info('done.')
+    response = requests.get(url)
+    logger.info('response: %s' % response)
+
+    logger.info('done.')
+
+
+if __name__ == "__main__":
+    main()
